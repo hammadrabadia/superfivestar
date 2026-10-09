@@ -14,13 +14,119 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      business_settings: {
+        Row: {
+          address: string
+          id: number
+          name: string
+          phones: string
+          updated_at: string
+        }
+        Insert: {
+          address: string
+          id?: number
+          name: string
+          phones: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          id?: number
+          name?: string
+          phones?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      invoice_items: {
+        Row: {
+          amount: number
+          description: string
+          id: string
+          invoice_id: string
+          position: number
+          quantity: number
+          unit_price: number
+        }
+        Insert: {
+          amount?: number
+          description?: string
+          id?: string
+          invoice_id: string
+          position?: number
+          quantity?: number
+          unit_price?: number
+        }
+        Update: {
+          amount?: number
+          description?: string
+          id?: string
+          invoice_id?: string
+          position?: number
+          quantity?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          client_address: string
+          client_name: string
+          client_phone: string
+          created_at: string
+          grand_total: number
+          id: string
+          invoice_date: string
+          invoice_number: number
+          notes: string
+          subtotal: number
+          tax_amount: number
+          tax_rate: number
+        }
+        Insert: {
+          client_address?: string
+          client_name?: string
+          client_phone?: string
+          created_at?: string
+          grand_total?: number
+          id?: string
+          invoice_date?: string
+          invoice_number: number
+          notes?: string
+          subtotal?: number
+          tax_amount?: number
+          tax_rate?: number
+        }
+        Update: {
+          client_address?: string
+          client_name?: string
+          client_phone?: string
+          created_at?: string
+          grand_total?: number
+          id?: string
+          invoice_date?: string
+          invoice_number?: number
+          notes?: string
+          subtotal?: number
+          tax_amount?: number
+          tax_rate?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      next_invoice_number: { Args: never; Returns: number }
     }
     Enums: {
       [_ in never]: never
