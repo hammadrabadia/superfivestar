@@ -46,7 +46,7 @@ export async function buildInvoicePdf(d: PdfData) {
   pdf.setFont("times", "bold"); pdf.text("INVOICE#", bx + 8, y + 41); pdf.setFont("times", "normal"); pdf.text(String(d.invoice_number), bx + 80, y + 41);
   y += 64;
 
-  for (const [label, val] of [["NAME:", d.client_name], ["ADDRESS:", d.client_address], ["MOB:", d.client_phone]]) {
+  for (const [label, val] of [["NAME:", d.client_name], ["ADDRESS:", d.client_address], ["MOB:", d.client_phone]] as [string, string][]) {
     pdf.setFont("times", "bold"); pdf.text(label, M + 4, y + 13);
     pdf.setFont("times", "normal"); pdf.text(val || "", M + 80, y + 13);
     pdf.line(M + 76, y + 18, M + CW, y + 18);
@@ -54,12 +54,12 @@ export async function buildInvoicePdf(d: PdfData) {
   }
   y += 10;
 
-  const cols = [40, CW - 40 - 60 - 80 - 90, 60, 80, 90];
+  const cols: [number, number, number, number, number] = [40, CW - 40 - 60 - 80 - 90, 60, 80, 90];
   const heads = ["Sno", "Description", "Qty", "U/Price", "Amount"];
   band(M, y, CW, 22);
   pdf.setFont("times", "bold");
   let x = M;
-  heads.forEach((h, i) => { pdf.text(h, x + cols[i] / 2, y + 15, { align: "center" }); x += cols[i]; });
+  heads.forEach((h, i) => { pdf.text(h, x + cols[i]! / 2, y + 15, { align: "center" }); x += cols[i]!; });
   pdf.rect(M, y, CW, 22);
   y += 22;
   const rows = Math.max(10, d.items.length);
